@@ -26,10 +26,20 @@ const D = {
   secondarySkills: ['SharePoint','Excel','DB2','IBM DataStage (ETL)','Snowflake'],
   experience: [
     {role:'Power BI Developer', company:'Alpharithm Technologies pvt ltd', dates:'Apr 2022 – Present',
-     responsibilities: [], // add your own bullet points
-     technologies: ['Power BI','DAX','Power Query','SQL','Azure SQL','ADF','Power BI Service','RLS','SharePoint','Power Automate']},
+     responsibilities: ['Designed and maintained 6 enterprise Power BI dashboards for Pharma and GBS teams, using DAX, Power Query, SQL and data models.',
+                        'Cut dashboard refresh time from over 10 minutes to under 5 through incremental refresh and DAX/SQL optimization.',
+                        'Implemented dynamic Row-Level Security across 5 roles, 9 regions and 551 users.',
+                        'Built a Power BI Service scorecard matrix that consolidates employee performance and activity data, adopted as the clients standard reporting approach.',
+                        'Automated daily sales report distribution with Power Automate.',
+                        'Built star-schema models on Azure SQL Database and SQL Server, including time-intelligence relationships using USERELATIONSHIP.',
+                        'Gathered requirements, supported UAT and release management, and provided production support.'], // add your own bullet points
+     technologies: ['Power BI','DAX','Power Query','SQL','Azure SQL','Power BI Service','RLS','SharePoint','Power Automate','ADF']},
     {role:'ETL Developer — IBM DataStage', company:'', dates:'Oct 2021 – Mar 2022',
-     responsibilities: [], technologies: ['IBM DataStage','IBM CDC','DB2','SQL Server']}],
+     responsibilities: ['Developed and maintained 8 parallel jobs and 2 sequence jobs in IBM DataStage', 
+                        'loading about 40K records per day into DB2.',
+                        'Added validation logic to remove fraudulent and duplicate records before reporting.',
+                        'Built Power BI reports from DB2 using Power Query and DAX, and supported requirements and production.'], 
+      technologies: ['IBM DataStage','IBM CDC','DB2','SQL Server']}],
   // per project: context, contribution, technologies:[], impact (only verified, non-confidential facts)
   projects: [
     'Daily Fill Rate Report','HCP Persona RLS','GBS Scorecard Matrix','EM Dashboard','Performance Scorecard','HR Employee Dashboard',
