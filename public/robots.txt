@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://YOUR-SITE-URL/sitemap.xml
+Sitemap: https://mathan-data-analyst-portfolio.vercel.app/sitemap.xml
