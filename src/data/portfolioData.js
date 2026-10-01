@@ -6,7 +6,7 @@ const D = {
   linkedin: 'https://www.linkedin.com/in/mathan-m-powerbi/',
   education: {degree: 'B.E. Computer Science', school: 'Loyola Institute of Technology and Science', year: '2021', place: 'Nagercoil'},
   resume: {path: '/resume.pdf'},
-  formEndpoint: 'https://formspree.io/f/YOUR_FORM_ID', // replace with your free Formspree/Web3Forms/Getform endpoint
+  formEndpoint: 'https://formspree.io/f/https://formspree.io/f/moevbgqq', // replace with your free Formspree/Web3Forms/Getform endpoint
   avatar: { // put optimized files in public/assets/avatar/. Missing files fall back to an MM panel.
     alt: 'Mathan M, Power BI Developer, in a dark blazer and white shirt',
     desktop: {avif: '', webp: '/assets/avatar/avatar-desktop.webp'},
