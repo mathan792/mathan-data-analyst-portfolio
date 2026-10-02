@@ -32,31 +32,30 @@ function Navbar(){const [sc,setSc]=useState(false),[open,setOpen]=useState(false
       <ul className="mt-6 flex flex-col gap-2">{D.nav.map(([id,l])=><li key={id}><a href={'#'+id} onClick={()=>setOpen(false)} className="block py-4 font-display text-3xl">{l}</a></li>)}</ul></motion.div>}</AnimatePresence>
   </header>}
 
-function Hero(){const rm=useReducedMotion(),a=D.avatar
-  const [skipped,setSkipped]=useState(!!rm),[done,setDone]=useState(!!rm),[imgOk,setImgOk]=useState(true),[vidOk,setVidOk]=useState(true),[sc,setSc]=useState(false),[wide,setWide]=useState(false)
-  useEffect(()=>{const m=matchMedia('(min-width:1024px)'),f=()=>setWide(m.matches),s=()=>setSc(scrollY>40);f();m.addEventListener('change',f);addEventListener('scroll',s,{passive:true})
-    return()=>{m.removeEventListener('change',f);removeEventListener('scroll',s)}},[])
-  const t=(i)=>({initial:skipped?false:{opacity:0,y:14,filter:'blur(8px)'},animate:{opacity:1,y:0,filter:'blur(0px)'},transition:{duration:skipped?0:.8,delay:skipped?0:1+i*.45}})
-  const video=wide&&a.video&&vidOk&&!rm&&!navigator.connection?.saveData
-  useEffect(()=>{if(done||video)return;const t=setTimeout(()=>setDone(true),4800);return()=>clearTimeout(t)},[done,video])
+function Hero(){const rm=useReducedMotion(),a=D.avatar,[imgOk,setImgOk]=useState(true),[sc,setSc]=useState(false)
+  useEffect(()=>{const s=()=>setSc(scrollY>40);addEventListener('scroll',s,{passive:true});return()=>removeEventListener('scroll',s)},[])
+  const t=i=>({initial:rm?false:{opacity:0,y:14,filter:'blur(8px)'},animate:{opacity:1,y:0,filter:'blur(0px)'},transition:{duration:.8,delay:.15+i*.18}})
   return <section id="home" className="relative min-h-[100svh] overflow-hidden" style={{background:'radial-gradient(60% 55% at 78% 40%,rgba(79,124,255,.16),transparent),radial-gradient(40% 40% at 92% 75%,rgba(139,92,246,.14),transparent),#07080c'}}>
     <div className="mx-auto grid min-h-[100svh] max-w-6xl items-center gap-6 px-5 pt-24 md:px-8 lg:grid-cols-[45fr_55fr]">
-      <div key={'t'+skipped} className="order-2 lg:order-1 pb-24 lg:pb-0">
+      <div className="order-2 lg:order-1 pb-24 lg:pb-0">
         <motion.h1 {...t(0)} className="font-display text-5xl sm:text-6xl xl:text-7xl font-semibold tracking-tight">{D.name}</motion.h1>
         <motion.p {...t(1)} className="mt-5 text-xl md:text-2xl text-white/90">{D.tagline}</motion.p>
         <motion.p {...t(2)} className="mt-2 text-mute">{D.title}</motion.p>
         <motion.div {...t(3)} className="mt-9 flex flex-wrap gap-3"><Primary href="#projects">View My Work</Primary><Ghost href="#resume">View Resume</Ghost></motion.div>
       </div>
-      <div className="order-1 lg:order-2 relative flex h-[46svh] lg:h-[82svh] items-end justify-center">
-        <motion.div key={'a'+skipped} className="h-full w-full" initial={skipped||video?false:{opacity:0,scale:1.16,filter:'blur(10px)'}} animate={{opacity:1,scale:1,filter:'blur(0px)'}} transition={{duration:skipped?0:4.5,ease:[.16,1,.3,1]}}>
-          {video?<video className="h-full w-full object-cover object-center [mask-image:linear-gradient(to_right,transparent,#000_14%,#000_86%,transparent)]" src={a.video} poster={a.poster||undefined} autoPlay={!skipped} muted playsInline preload="auto" onEnded={()=>setDone(true)} onLoadedMetadata={skipped?e=>{e.currentTarget.currentTime=e.currentTarget.duration}:undefined} onError={()=>setVidOk(false)} aria-label={a.alt}/>
-          :imgOk?<picture>{a.desktop.avif&&<source media="(min-width:1024px)" srcSet={a.desktop.avif} type="image/avif"/>}<source media="(min-width:1024px)" srcSet={a.desktop.webp} type="image/webp"/>{a.mobile.avif&&<source srcSet={a.mobile.avif} type="image/avif"/>}<source srcSet={a.mobile.webp} type="image/webp"/>
-            <img src={a.mobile.fallback} alt={a.alt} fetchpriority="high" decoding="async" onError={()=>setImgOk(false)} className="h-full w-full object-contain object-bottom"/></picture>
-          :<div aria-hidden="true" className="grid h-3/4 w-3/4 place-items-center self-center rounded-3xl border border-line bg-panel font-display text-8xl text-white/20">MM</div>}
-        </motion.div>
-      </div>
+      <motion.div className="order-1 lg:order-2 flex items-center justify-center" initial={rm?false:{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.9,ease:[.22,1,.36,1]}}>
+        <div className="relative aspect-square w-[min(88%,52svh)] lg:w-[min(100%,calc(100svh_-_7rem))]">
+          <div aria-hidden="true" className="absolute -inset-[12%] rounded-full bg-[radial-gradient(closest-side,rgba(99,102,241,.38),rgba(79,124,255,.12)_60%,transparent)]"/>
+          <div className="relative h-full w-full rounded-full bg-[linear-gradient(135deg,#4f7cff,#8b5cf6)] p-[3px] shadow-[0_0_70px_rgba(99,102,241,.3)]">
+            <div className="h-full w-full overflow-hidden rounded-full bg-ink">
+              {imgOk?<picture className="block h-full w-full">{a.desktop.avif&&<source media="(min-width:1024px)" srcSet={a.desktop.avif} type="image/avif"/>}<source media="(min-width:1024px)" srcSet={a.desktop.webp} type="image/webp"/>{a.mobile.avif&&<source srcSet={a.mobile.avif} type="image/avif"/>}<source srcSet={a.mobile.webp} type="image/webp"/>
+                <img src={a.mobile.fallback} alt={a.alt} fetchPriority="high" decoding="async" onError={()=>setImgOk(false)} className="h-full w-full object-cover object-[50%_39%]"/></picture>
+              :<div aria-hidden="true" className="grid h-full w-full place-items-center bg-panel font-display text-8xl text-white/20">MM</div>}
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </div>
-    {!skipped&&!done&&<button onClick={()=>setSkipped(true)} className="absolute bottom-6 right-5 md:right-8 rounded-full border border-white/30 bg-ink/70 px-4 py-2 text-sm backdrop-blur hover:border-white">Skip Intro</button>}
     {!sc&&<a href="#about" aria-label="Scroll to About" className="absolute bottom-6 left-1/2 -translate-x-1/2 text-mute flex flex-col items-center gap-1 text-xs">
       <span className="hidden lg:block">Scroll to explore</span><motion.span animate={rm?{}:{y:[0,6,0]}} transition={{repeat:Infinity,duration:1.8}}><ArrowDown size={18}/></motion.span></a>}
   </section>}
