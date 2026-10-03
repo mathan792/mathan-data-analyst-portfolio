@@ -1,6 +1,6 @@
 import {useState,useEffect} from 'react'
 import {motion,AnimatePresence,useReducedMotion} from 'framer-motion'
-import {Menu,X,BarChart3,Sigma,Filter,Database,ShieldCheck,Network,Cloud,GitBranch,Mail,Phone,ChevronDown,FileText,Download,GraduationCap,ArrowDown} from 'lucide-react'
+import {Menu,X,BarChart3,Sigma,Filter,Database,ShieldCheck,Network,Cloud,GitBranch,Mail,Phone,ChevronDown,FileText,Download,GraduationCap,ArrowDown,CalendarDays,FolderOpen,Smile,Trophy} from 'lucide-react'
 import D from './data/portfolioData'
 const ICONS={bi:BarChart3,sigma:Sigma,filter:Filter,db:Database,shield:ShieldCheck,net:Network,cloud:Cloud,git:GitBranch}
 const ext={target:'_blank',rel:'noopener noreferrer'}
@@ -11,8 +11,8 @@ const Ghost=p=><a {...p} className={`${btn} border border-line text-white hover:
 
 function Reveal({children,x=0,y=24}){const r=useReducedMotion()
   return <motion.div initial={r?false:{opacity:0,x,y}} whileInView={{opacity:1,x:0,y:0}} viewport={{once:true,margin:'-80px'}} transition={{duration:.6,ease:[.22,1,.36,1]}}>{children}</motion.div>}
-const H=({id,children})=><h2 id={id} className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-8 md:mb-12 flex items-center gap-4"><span className="grad h-8 w-1 rounded-full"/>{children}</h2>
-const Sec=({id,title,children})=><section id={id} aria-labelledby={id+'-h'} className="mx-auto max-w-6xl px-5 md:px-8 py-16 md:py-28"><H id={id+'-h'}>{title}</H>{children}</section>
+const H=({id,children})=><h2 id={id} className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-6 md:mb-8 flex items-center gap-4"><span className="grad h-8 w-1 rounded-full"/>{children}</h2>
+const Sec=({id,title,children})=><section id={id} aria-labelledby={id+'-h'} className="mx-auto max-w-6xl px-5 md:px-8 py-10 md:py-16 border-t border-line/60"><H id={id+'-h'}>{title}</H>{children}</section>
 const Badge=({children})=><span className="rounded-md border border-line bg-white/[.03] px-2.5 py-1 text-xs text-mute">{children}</span>
 
 function useActive(ids){const [a,setA]=useState(ids[0])
@@ -32,19 +32,42 @@ function Navbar(){const [sc,setSc]=useState(false),[open,setOpen]=useState(false
       <ul className="mt-6 flex flex-col gap-2">{D.nav.map(([id,l])=><li key={id}><a href={'#'+id} onClick={()=>setOpen(false)} className="block py-4 font-display text-3xl">{l}</a></li>)}</ul></motion.div>}</AnimatePresence>
   </header>}
 
+function Kpi(){const rm=useReducedMotion(),L=(D.skillLevels||[]).map(x=>({...x,level:Math.min(100,Number(x.level)||0)})).filter(x=>x.name&&x.level>0)
+  if(!L.length)return null
+  return <motion.div className="order-4 flex w-full max-w-[560px] flex-col justify-self-center rounded-2xl border border-line bg-panel p-5 lg:self-stretch lg:col-start-2 lg:row-start-2" initial={rm?false:{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.8,delay:.5,ease:[.22,1,.36,1]}}>
+    <p className="mb-4 flex items-center gap-2 text-sm font-semibold"><span className="grad h-4 w-1 rounded-full"/>Expertise</p>
+    <ul className="flex flex-1 flex-col justify-between gap-3">{L.map((x,i)=><li key={x.name} className="grid grid-cols-[7rem_1fr_2.75rem] items-center gap-3 text-sm">
+      <span className="truncate text-white/90">{x.name}</span>
+      <div role="progressbar" aria-label={x.name} aria-valuemin={0} aria-valuemax={100} aria-valuenow={x.level} className="h-1.5 overflow-hidden rounded-full bg-white/10">
+        <motion.div className="h-full rounded-full grad" initial={rm?false:{width:0}} animate={{width:x.level+'%'}} transition={{duration:1,delay:.7+i*.08,ease:'easeOut'}}/></div>
+      <span className="text-right text-mute">{x.level}%</span></li>)}</ul></motion.div>}
+
+const SI={calendar:CalendarDays,folder:FolderOpen,smile:Smile,trophy:Trophy}
+const Growth=()=><svg viewBox="0 0 120 120" fill="none" className="h-auto w-full drop-shadow-[0_0_10px_rgba(99,102,241,.35)]">
+  <defs><linearGradient id="gb" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stopColor="#8b5cf6"/><stop offset="1" stopColor="#4f7cff"/></linearGradient>
+  <linearGradient id="ga" gradientUnits="userSpaceOnUse" x1="12" y1="66" x2="101" y2="17"><stop offset="0" stopColor="#4f7cff"/><stop offset="1" stopColor="#a78bfa"/></linearGradient></defs>
+  <g fill="url(#gb)" opacity=".9">{[[12,22],[33,34],[54,46],[75,60],[96,76]].map(([x,h])=><rect key={x} x={x} y={108-h} width="13" height={h} rx="3"/>)}</g>
+  <path d="M12 66 40 48 58 56 101 17M88 17h13v13" stroke="url(#ga)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+function Stats(){const rm=useReducedMotion(),L=(D.stats||[]).filter(x=>x.value&&x.label)
+  if(!L.length)return null
+  return <ul className="relative order-3 grid w-full max-w-sm grid-cols-[auto_auto] content-between justify-between justify-self-center gap-y-4 lg:col-start-1 lg:row-start-2 lg:max-w-none lg:self-stretch">{L.map((x,i)=>{const I=SI[x.icon];return <motion.li key={x.label} className="grid aspect-square w-[8.5rem] place-items-center rounded-full bg-[linear-gradient(135deg,#4f7cff,#8b5cf6)] p-[1.5px] shadow-[0_0_30px_rgba(99,102,241,.15)]" initial={rm?false:{opacity:0,scale:.9}} animate={{opacity:1,scale:1}} transition={{duration:.6,delay:.6+i*.1,ease:[.22,1,.36,1]}}>
+    <div className="flex h-full w-full flex-col items-center justify-center gap-1 rounded-full bg-panel px-3 text-center">{I&&<span className="mb-0.5 grid h-7 w-7 place-items-center rounded-full bg-[linear-gradient(135deg,#4f7cff,#8b5cf6)] text-white"><I size={14} aria-hidden="true"/></span>}<span className="font-display text-2xl font-semibold leading-none">{x.value}</span><span className="text-[11px] leading-tight text-mute">{x.label}</span></div></motion.li>})}
+    <li aria-hidden="true" className="pointer-events-none absolute left-1/2 top-1/2 hidden w-14 -translate-x-1/2 -translate-y-1/2 min-[380px]:block lg:w-24 xl:w-28"><motion.div initial={rm?false:{opacity:0,scale:.85}} animate={{opacity:1,scale:1}} transition={{duration:.8,delay:1,ease:[.22,1,.36,1]}}><Growth/></motion.div></li></ul>}
+
 function Hero(){const rm=useReducedMotion(),a=D.avatar,[imgOk,setImgOk]=useState(true),[sc,setSc]=useState(false)
   useEffect(()=>{const s=()=>setSc(scrollY>40);addEventListener('scroll',s,{passive:true});return()=>removeEventListener('scroll',s)},[])
   const t=i=>({initial:rm?false:{opacity:0,y:14,filter:'blur(8px)'},animate:{opacity:1,y:0,filter:'blur(0px)'},transition:{duration:.8,delay:.15+i*.18}})
   return <section id="home" className="relative min-h-[100svh] overflow-hidden" style={{background:'radial-gradient(60% 55% at 78% 40%,rgba(79,124,255,.16),transparent),radial-gradient(40% 40% at 92% 75%,rgba(139,92,246,.14),transparent),#07080c'}}>
-    <div className="mx-auto grid min-h-[100svh] max-w-6xl items-center gap-6 px-5 pt-24 md:px-8 lg:grid-cols-[45fr_55fr]">
-      <div className="order-2 lg:order-1 pb-24 lg:pb-0">
+    <div className="mx-auto grid min-h-[100svh] max-w-6xl content-center gap-x-6 gap-y-8 px-5 pb-14 pt-24 lg:gap-y-12 md:px-8 lg:grid-cols-[45fr_55fr]">
+      <div className="order-2 lg:col-start-1 lg:row-start-1 lg:self-center">
         <motion.h1 {...t(0)} className="font-display text-5xl sm:text-6xl xl:text-7xl font-semibold tracking-tight">{D.name}</motion.h1>
         <motion.p {...t(1)} className="mt-5 text-xl md:text-2xl text-white/90">{D.tagline}</motion.p>
         <motion.p {...t(2)} className="mt-2 text-mute">{D.title}</motion.p>
         <motion.div {...t(3)} className="mt-9 flex flex-wrap gap-3"><Primary href="#projects">View My Work</Primary><Ghost href="#resume">View Resume</Ghost></motion.div>
+        {!sc&&<a href="#about" aria-label="Scroll to About" className="mt-12 inline-flex items-center gap-2 text-xs text-mute"><span className="hidden lg:inline">Scroll to explore</span><motion.span animate={rm?{}:{y:[0,6,0]}} transition={{repeat:Infinity,duration:1.8}}><ArrowDown size={16}/></motion.span></a>}
       </div>
-      <motion.div className="order-1 lg:order-2 flex items-center justify-center" initial={rm?false:{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.9,ease:[.22,1,.36,1]}}>
-        <div className="relative aspect-square w-[min(88%,52svh)] lg:w-[min(100%,calc(100svh_-_7rem))]">
+      <motion.div className="order-1 lg:col-start-2 lg:row-start-1 flex items-center justify-center" initial={rm?false:{opacity:0,y:24}} animate={{opacity:1,y:0}} transition={{duration:.9,ease:[.22,1,.36,1]}}>
+        <div className="relative aspect-square w-[min(88%,52svh)] lg:w-[min(100%,560px,calc(100svh_-_17rem))]">
           <div aria-hidden="true" className="absolute -inset-[12%] rounded-full bg-[radial-gradient(closest-side,rgba(99,102,241,.38),rgba(79,124,255,.12)_60%,transparent)]"/>
           <div className="relative h-full w-full rounded-full bg-[linear-gradient(135deg,#4f7cff,#8b5cf6)] p-[3px] shadow-[0_0_70px_rgba(99,102,241,.3)]">
             <div className="h-full w-full overflow-hidden rounded-full bg-ink">
@@ -55,9 +78,9 @@ function Hero(){const rm=useReducedMotion(),a=D.avatar,[imgOk,setImgOk]=useState
           </div>
         </div>
       </motion.div>
+      <Stats/>
+      <Kpi/>
     </div>
-    {!sc&&<a href="#about" aria-label="Scroll to About" className="absolute bottom-6 left-1/2 -translate-x-1/2 text-mute flex flex-col items-center gap-1 text-xs">
-      <span className="hidden lg:block">Scroll to explore</span><motion.span animate={rm?{}:{y:[0,6,0]}} transition={{repeat:Infinity,duration:1.8}}><ArrowDown size={18}/></motion.span></a>}
   </section>}
 
 const About=()=>{const e=D.education;return <Sec id="about" title="About"><Reveal x={-30} y={0}><div className="grid gap-8 md:grid-cols-[1.4fr_1fr]">
